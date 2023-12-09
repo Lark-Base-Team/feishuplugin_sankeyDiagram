@@ -1,0 +1,128 @@
+[
+  {
+    "source": "Taobao &Tmall",
+    "target": "income",
+    "value": 97.7,
+    "path": "Taobao &Tmall -> income -> 97.7"
+  },
+  {
+    "source": "International Digital Commerce",
+    "target": "income",
+    "value": 24.5,
+    "path": "International Digital Commerce -> income -> 24.5"
+  },
+  {
+    "source": "Local Services",
+    "target": "income",
+    "value": 15.6,
+    "path": "Local Services -> income -> 15.6"
+  },
+  {
+    "source": "Cainiao",
+    "target": "income",
+    "value": 22.8,
+    "path": "Cainiao -> income -> 22.8"
+  },
+  {
+    "source": "Cloud",
+    "target": "income",
+    "value": 27.6,
+    "path": "Cloud -> income -> 27.6"
+  },
+  {
+    "source": "Digital Media",
+    "target": "income",
+    "value": 5.8,
+    "path": "Digital Media -> income -> 5.8"
+  },
+  {
+    "source": "All others",
+    "target": "income",
+    "value": 48.1,
+    "path": "All others -> income -> 48.1"
+  },
+  {
+    "source": "income",
+    "target": "Adjustments & unallocated",
+    "value": 17.3,
+    "path": "income -> Adjustments & unallocated -> 17.3"
+  },
+  {
+    "source": "income",
+    "target": "Revenue",
+    "value": 224.8,
+    "path": "income -> Revenue -> 224.8"
+  },
+  {
+    "source": "Revenue",
+    "target": "Gross profit",
+    "value": 85.1,
+    "path": "Revenue -> Gross profit -> 85.1"
+  },
+  {
+    "source": "Revenue",
+    "target": "Cost of revenue",
+    "value": 139.7,
+    "path": "Revenue -> Cost of revenue -> 139.7"
+  },
+  {
+    "source": "Gross profit",
+    "target": "Operating profit",
+    "value": 33.6,
+    "path": "Gross profit -> Operating profit -> 33.6"
+  },
+  {
+    "source": "Gross profit",
+    "target": "Operating expenses",
+    "value": 51.5,
+    "path": "Gross profit -> Operating expenses -> 51.5"
+  },
+  {
+    "source": "Operating profit",
+    "target": "Net profit",
+    "value": 23.4,
+    "path": "Operating profit -> Net profit -> 23.4"
+  },
+  {
+    "source": "Operating profit",
+    "target": "Interest & investments",
+    "value": 4.4,
+    "path": "Operating profit -> Interest & investments -> 4.4"
+  },
+  {
+    "source": "Operating profit",
+    "target": "Tax",
+    "value": 5.8,
+    "path": "Operating profit -> Tax -> 5.8"
+  },
+  {
+    "source": "Operating expenses",
+    "target": "Sales & marketing",
+    "value": 25.5,
+    "path": "Operating expenses -> Sales & marketing -> 25.5"
+  },
+  {
+    "source": "Operating expenses",
+    "target": "Product development",
+    "value": 14.2,
+    "path": "Operating expenses -> Product development -> 14.2"
+  },
+  {
+    "source": "Operating expenses",
+    "target": "General & Administrative",
+    "value": 9.4,
+    "path": "Operating expenses -> General & Administrative -> 9.4"
+  },
+  {
+    "source": "Operating expenses",
+    "target": "Amortization of intangibles",
+    "value": 2.4,
+    "path": "Operating expenses -> Amortization of intangibles -> 2.4"
+  },
+  {
+    "source": "Other",
+    "target": "Net profit",
+    "value": 3.3,
+    "path": "Other -> Net profit -> 3.3"
+  }
+]
