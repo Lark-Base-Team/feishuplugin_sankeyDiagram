@@ -331,9 +331,13 @@ export default function App() {
             <Typography>
                 <Paragraph style={{width: '75%', marginLeft: '20px'}}>
                     <blockquote>
-                        {t('d_l1')}<br />
+                        {t('d_l1')}
+                        <br />
                         {t('d_l2')}
-                        <Link href="https://lwmwpiwc4ry.feishu.cn/base/V4JBbjWJpaJJZksXPZvcdJLenAh?table=tblMQj9A1mgA7uka&view=vewTC4u06G">{t('示例表格')}</Link>
+                        <Link href="https://lwmwpiwc4ry.feishu.cn/base/V4JBbjWJpaJJZksXPZvcdJLenAh?table=tblMQj9A1mgA7uka&view=vewTC4u06G" target="_blank">{t('示例表格')}</Link>
+                        <br />
+                        {t('d_l3')}
+                        <Link href="https://lwmwpiwc4ry.feishu.cn/docx/TKZidd3QIodW9fxMx8xcc2LjnU5?from=from_copylink" target="_blank">{t('说明文档')}</Link>
                     </blockquote>
                 </Paragraph>
             </Typography>

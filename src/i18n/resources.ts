@@ -4,7 +4,9 @@ const resources = {
       // 定义你的中文文案
       'Welcome to UIBuilder': '欢迎使用 UIBuilder',
       'd_l1': `选择当前表格中不同的列作为桑基图的数据来源`,
-      'd_l2':'数据示例见',
+      'd_l2':'数据示例见    ',
+      'd_l3': '使用文档见   ',
+      '说明文档': '说明文档',
       '示例表格': '示例表格',
       '选择起点列': '选择起点列:',
       '选择终点列': '选择终点列:',
@@ -36,7 +38,9 @@ const resources = {
       // Define your English text
       'Welcome to UIBuilder': 'Welcome to UIBuilder',
       'd_l1': 'Select different columns in current table as the data source for Sankey chart',
-      'd_l2':'Sample data in',
+      'd_l2':'Sample data in    ',
+      'd_l3': 'Usage doc in    ',
+      '说明文档': 'Usage doc',
       '示例表格': 'Sample table',
       '选择起点列': 'Choose source column:',
       '选择终点列': 'Choose target column:',
