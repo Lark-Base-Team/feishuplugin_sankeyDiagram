@@ -1,12 +1,13 @@
 import './App.css';
 import { useEffect, useState, useRef } from 'react';
-import { bitable, UIBuilder } from "@lark-base-open/js-sdk";
+import { bitable, FieldType, UIBuilder } from "@lark-base-open/js-sdk";
 import { useTranslation } from 'react-i18next';
 import { UseTranslationResponse } from 'react-i18next';
 import './i18n';
 import { Sankey, G2 } from "@antv/g2plot";
 import { InputNumber, Space, Select, Button, Flex, Alert, ColorPicker, Col, Divider, Row, SelectProps, Typography } from 'antd';
 import * as themeData from './g2plot_theme.json';
+import html2canvas from 'html2canvas';
 
 
 
@@ -326,10 +327,72 @@ export default function App() {
 
     const { Title, Paragraph, Text, Link } = Typography;
 
+    const saveAsImage = () => {
+        const chartContainer = chartContainerRef.current;
+
+        if (chartContainer) {
+            html2canvas(chartContainer)
+                .then((canvas: { toDataURL: (arg0: string) => any; }) => {
+                    const imgData = canvas.toDataURL('image/png');
+                    const link = document.createElement('a');
+                    link.href = imgData;
+                    link.download = 'chart.png';
+                    link.click();
+                })
+                .catch((error) => {
+                    console.error('Error saving chart as image:', error);
+                });
+        }
+    };
+
+    const saveToAttachment = async () => {
+        //setLoadings(true);
+        const selection = await bitable.base.getSelection();
+        const table = await bitable.base.getTableById(selection?.tableId!);
+        const fieldMetaList = await table.getFieldMetaList();
+        const recordIdList = await table.getRecordIdList();
+
+        let attachmentFieldExist = false;
+        fieldMetaList.map((value, index) => {
+            if (value.type == 17) { attachmentFieldExist = true }
+        })
+        if (!attachmentFieldExist) {
+
+        }
+        if (chartContainerRef.current) {
+            html2canvas(chartContainerRef.current)
+                .then(async (canvas: { toDataURL: (arg0: string) => any; }) => {
+                    const imgData = canvas.toDataURL('image/png');
+                    // Convert data URL to Blob to file
+                    const byteString = atob(imgData.split(',')[1]);
+                    const mimeString = imgData.split(',')[0].split(':')[1].split(';')[0];
+                    const arrayBuffer = new ArrayBuffer(byteString.length);
+                    const uint8Array = new Uint8Array(arrayBuffer);
+                    for (let i = 0; i < byteString.length; i++) {
+                        uint8Array[i] = byteString.charCodeAt(i);
+                    }
+                    const blob = new Blob([uint8Array], { type: mimeString });
+                    const fileName = 'chart.png';
+                    const file = new File([blob], fileName, { type: mimeString });
+                    // upload pic file to a new attachment field
+                    const newAttachmentFieldId = await table.addField({ type: FieldType.Attachment });
+                    //add to first column
+                    (await table.getField(newAttachmentFieldId)).setValue(recordIdList[0], file);
+                    //add to new and last column
+                    //const recordId = await table.addRecord(await (await table.getField(newAttachmentFieldId)).createCell(file));
+
+                })
+                .catch((error) => {
+                    console.error('Error saving chart as image:', error);
+                });
+        }
+
+
+    };
     return (
         <main>
             <Typography>
-                <Paragraph style={{width: '75%', marginLeft: '20px'}}>
+                <Paragraph style={{ width: '75%', marginLeft: '20px' }}>
                     <blockquote>
                         {t('d_l1')}
                         <br />
@@ -504,6 +567,12 @@ export default function App() {
                     <Flex gap="small" style={{ width: '52%', marginTop: '20px' }}>
                         <Button type="primary" onClick={handleSubmitButtonClick} loading={loadings} block>
                             {t('确定')}
+                        </Button>
+                        <Button type="default" onClick={saveAsImage} >
+                            {t('保存图片')}
+                        </Button>
+                        <Button type="default" onClick={saveToAttachment}>
+                            {t('保存到表格附件')}
                         </Button>
                     </Flex>
 
