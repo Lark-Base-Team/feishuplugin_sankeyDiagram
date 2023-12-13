@@ -73,7 +73,7 @@ export default function App() {
             },
             rawFields: ['path', 'value'],
             label: {
-                fields: ['name', 'path', 'value'],
+                fields: ['x', 'name', 'path', 'value'],
                 formatter: (datum: Datum) => {
                     if (showNodeValue){
                         return `${datum.name}\n${datum.value}`;
@@ -81,16 +81,17 @@ export default function App() {
                         return datum.name;
                     }
                 },
-                callback: (x: number[]) => {
-                    const isLast = x[1] === 1; // 最后一列靠边的节点
+                callback: (x:number[]) => {
+                    const isLast = x[1] === 1;// 最后一列靠边的节点
+                    //console.log(x)
                     return {
                         style: {
                             fill: textColor,
-                            //textAlign: isLast ? 'end' : 'start',
+                            textAlign: isLast ? 'end' : 'start',
                             fontSize: textSize,
                             fontWeight: textWeight as "normal" | "bolder" | "lighter",
                         },
-                        //offsetX: isLast ? -8 : 8,
+                        offsetX: isLast ? -8 : 8,
                     };
                 },
                 layout: [{type: 'hide-overlap'}],
