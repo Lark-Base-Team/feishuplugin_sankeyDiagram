@@ -4,8 +4,8 @@ import { bitable, FieldType, UIBuilder } from "@lark-base-open/js-sdk";
 import { useTranslation } from 'react-i18next';
 import { UseTranslationResponse } from 'react-i18next';
 import './i18n';
-import { Sankey, G2 } from "@antv/g2plot";
-import { InputNumber, Space, Select, Button, Flex, Alert, ColorPicker, Col, Divider, Row, SelectProps, Typography } from 'antd';
+import { Sankey, G2, Datum } from "@antv/g2plot";
+import { InputNumber, Space, Switch, Select, Button, Flex, Alert, ColorPicker, Col, Divider, Row, SelectProps, Typography } from 'antd';
 import * as themeData from './g2plot_theme.json';
 import html2canvas from 'html2canvas';
 
@@ -49,6 +49,7 @@ export default function App() {
                 '#00FFFF',
                 '#FF00FF']
         },
+        showNodeValue = false,
     ) => {
         const oldChart = chartContainerRef.current.chart;
         if (oldChart) {
@@ -70,25 +71,29 @@ export default function App() {
             nodeStyle: {
                 opacity: nodeOpacity,
             },
+            rawFields: ['path', 'value'],
             label: {
-                formatter: ({ name }) => name,
+                fields: ['name', 'path', 'value'],
+                formatter: (datum: Datum) => {
+                    if (showNodeValue){
+                        return `${datum.name}\n${datum.value}`;
+                    }else {
+                        return datum.name;
+                    }
+                },
                 callback: (x: number[]) => {
                     const isLast = x[1] === 1; // 最后一列靠边的节点
                     return {
                         style: {
                             fill: textColor,
-                            textAlign: isLast ? 'end' : 'start',
+                            //textAlign: isLast ? 'end' : 'start',
                             fontSize: textSize,
                             fontWeight: textWeight as "normal" | "bolder" | "lighter",
                         },
-                        offsetX: isLast ? -8 : 8,
+                        //offsetX: isLast ? -8 : 8,
                     };
                 },
-                layout: [
-                    {
-                        type: 'hide-overlap',
-                    },
-                ],
+                layout: [{type: 'hide-overlap'}],
             },
 
             //节点降序排序
@@ -97,7 +102,6 @@ export default function App() {
             nodeAlign: nodeAlign as "left" | "right" | "center" | "justify",
             nodePaddingRatio: nodePaddingRatio,
             nodeDraggable: true,
-            rawFields: ['path'],
             tooltip: {
                 fields: ['path', 'value'],
                 formatter: ({ path, value }) => {
@@ -154,9 +158,8 @@ export default function App() {
     const [textSize, settextSize] = useState(15);
     const [textWeight, settextWeight] = useState('normal');
     const [textColor, settextColor] = useState('#545454');
-
-    //chart theme color select
     const [selectedTheme, setSelectedTheme] = useState('theme00');
+    const [showNodeValue, setshowNodeValue] = useState(false);
     //colors here only for option showing
     const colorThemes = [
         {
@@ -265,6 +268,7 @@ export default function App() {
         console.log(textWeight);
         console.log(textColor);
         console.log(selectedTheme);
+        console.log(showNodeValue);
         setLoadings(true);
         const selection = await bitable.base.getSelection();
         const table = await bitable.base.getTableById(selection?.tableId!);
@@ -317,6 +321,7 @@ export default function App() {
                     textWeight,
                     textColor,
                     themeData[selectedTheme],
+                    showNodeValue,
                 );
             } catch (error) {
                 console.error(error);
@@ -530,7 +535,7 @@ export default function App() {
                                 />
                             </div>
                         </Col>
-                        <Col>
+                        <Col span={12}>
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'left' }}>
                                 <span style={{ fontSize: '15px', marginRight: '10px' }}>{t('图表主题颜色')}</span>
 
@@ -556,9 +561,14 @@ export default function App() {
                             </div>
                         </Col>
                         <Col span={12}>
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'left' }}>
-
-                            </div>
+                            
+                            <Space style={{ display: 'flex', alignItems: 'center', justifyContent: 'left', marginTop:'5px' }}>
+                                <span style={{ fontSize: '15px' }}>{t('显示节点数值')}</span>
+                                <Switch onChange={setshowNodeValue} />
+                                
+                            </Space>
+                            
+                            
                         </Col>
 
                     </Row>
