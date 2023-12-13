@@ -392,7 +392,7 @@ export default function App() {
     return (
         <main>
             <Typography>
-                <Paragraph style={{ width: '75%', marginLeft: '20px' }}>
+                <Paragraph style={{ width: '75%', marginLeft: '20px', fontSize: '16px' }}>
                     <blockquote>
                         {t('d_l1')}
                         <br />
@@ -575,6 +575,14 @@ export default function App() {
                             {t('保存到表格附件')}
                         </Button>
                     </Flex>
+                    <Typography>
+                        <Paragraph style={{ width: '75%', marginTop:'20px', fontSize: '12px', display: 'flex', alignItems: 'center' }}>
+                            <span style={{marginRight: '5px', fontSize: '20px'}}>🛈</span>
+                            {t('d_l4')}
+                            <br />
+                            {t('d_l5')}
+                        </Paragraph>
+                    </Typography>
 
                     {chartError && (
                         <Alert
@@ -591,7 +599,7 @@ export default function App() {
 
             )}
             <div ref={chartContainerRef} style={{ width: '97%', height: '425px', resize: 'vertical', overflow: 'auto' }}></div>
-
+            <div style={{width: '100%', height: '40px'}}></div>
         </main>
 
 
