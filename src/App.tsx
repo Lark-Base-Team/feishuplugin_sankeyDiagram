@@ -4,8 +4,8 @@ import { bitable, FieldType, UIBuilder } from "@lark-base-open/js-sdk";
 import { useTranslation } from 'react-i18next';
 import { UseTranslationResponse } from 'react-i18next';
 import './i18n';
-import { Sankey, G2 } from "@antv/g2plot";
-import { InputNumber, Space, Select, Button, Flex, Alert, ColorPicker, Col, Divider, Row, SelectProps, Typography } from 'antd';
+import { Sankey, G2, Datum } from "@antv/g2plot";
+import { InputNumber, Space, Switch, Select, Button, Flex, Alert, ColorPicker, Col, Divider, Row, SelectProps, Typography } from 'antd';
 import * as themeData from './g2plot_theme.json';
 import html2canvas from 'html2canvas';
 
@@ -49,6 +49,7 @@ export default function App() {
                 '#00FFFF',
                 '#FF00FF']
         },
+        showNodeValue = false,
     ) => {
         const oldChart = chartContainerRef.current.chart;
         if (oldChart) {
@@ -70,10 +71,19 @@ export default function App() {
             nodeStyle: {
                 opacity: nodeOpacity,
             },
+            rawFields: ['path', 'value'],
             label: {
-                formatter: ({ name }) => name,
-                callback: (x: number[]) => {
-                    const isLast = x[1] === 1; // 最后一列靠边的节点
+                fields: ['x', 'name', 'path', 'value'],
+                formatter: (datum: Datum) => {
+                    if (showNodeValue){
+                        return `${datum.name}\n${datum.value}`;
+                    }else {
+                        return datum.name;
+                    }
+                },
+                callback: (x:number[]) => {
+                    const isLast = x[1] === 1;// 最后一列靠边的节点
+                    //console.log(x)
                     return {
                         style: {
                             fill: textColor,
@@ -84,11 +94,7 @@ export default function App() {
                         offsetX: isLast ? -8 : 8,
                     };
                 },
-                layout: [
-                    {
-                        type: 'hide-overlap',
-                    },
-                ],
+                layout: [{type: 'hide-overlap'}],
             },
 
             //节点降序排序
@@ -97,7 +103,6 @@ export default function App() {
             nodeAlign: nodeAlign as "left" | "right" | "center" | "justify",
             nodePaddingRatio: nodePaddingRatio,
             nodeDraggable: true,
-            rawFields: ['path'],
             tooltip: {
                 fields: ['path', 'value'],
                 formatter: ({ path, value }) => {
@@ -154,9 +159,8 @@ export default function App() {
     const [textSize, settextSize] = useState(15);
     const [textWeight, settextWeight] = useState('normal');
     const [textColor, settextColor] = useState('#545454');
-
-    //chart theme color select
     const [selectedTheme, setSelectedTheme] = useState('theme00');
+    const [showNodeValue, setshowNodeValue] = useState(false);
     //colors here only for option showing
     const colorThemes = [
         {
@@ -265,6 +269,7 @@ export default function App() {
         console.log(textWeight);
         console.log(textColor);
         console.log(selectedTheme);
+        console.log(showNodeValue);
         setLoadings(true);
         const selection = await bitable.base.getSelection();
         const table = await bitable.base.getTableById(selection?.tableId!);
@@ -317,6 +322,7 @@ export default function App() {
                     textWeight,
                     textColor,
                     themeData[selectedTheme],
+                    showNodeValue,
                 );
             } catch (error) {
                 console.error(error);
@@ -392,7 +398,7 @@ export default function App() {
     return (
         <main>
             <Typography>
-                <Paragraph style={{ width: '75%', marginLeft: '20px' }}>
+                <Paragraph style={{ width: '75%', marginLeft: '20px', fontSize: '16px' }}>
                     <blockquote>
                         {t('d_l1')}
                         <br />
@@ -530,7 +536,7 @@ export default function App() {
                                 />
                             </div>
                         </Col>
-                        <Col>
+                        <Col span={12}>
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'left' }}>
                                 <span style={{ fontSize: '15px', marginRight: '10px' }}>{t('图表主题颜色')}</span>
 
@@ -556,9 +562,14 @@ export default function App() {
                             </div>
                         </Col>
                         <Col span={12}>
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'left' }}>
-
-                            </div>
+                            
+                            <Space style={{ display: 'flex', alignItems: 'center', justifyContent: 'left', marginTop:'5px' }}>
+                                <span style={{ fontSize: '15px' }}>{t('显示节点数值')}</span>
+                                <Switch onChange={setshowNodeValue} />
+                                
+                            </Space>
+                            
+                            
                         </Col>
 
                     </Row>
@@ -575,6 +586,14 @@ export default function App() {
                             {t('保存到表格附件')}
                         </Button>
                     </Flex>
+                    <Typography>
+                        <Paragraph style={{ width: '75%', marginTop:'20px', fontSize: '12px', display: 'flex', alignItems: 'center' }}>
+                            <span style={{marginRight: '5px', fontSize: '20px'}}>🛈</span>
+                            {t('d_l4')}
+                            <br />
+                            {t('d_l5')}
+                        </Paragraph>
+                    </Typography>
 
                     {chartError && (
                         <Alert
@@ -591,7 +610,7 @@ export default function App() {
 
             )}
             <div ref={chartContainerRef} style={{ width: '97%', height: '425px', resize: 'vertical', overflow: 'auto' }}></div>
-
+            <div style={{width: '100%', height: '40px'}}></div>
         </main>
 
 
